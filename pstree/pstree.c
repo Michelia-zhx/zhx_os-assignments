@@ -9,7 +9,7 @@ typedef struct PNode{
   int ppid;
   struct PNode *l_child;
   struct PNode *r_bro;
-};
+}root;
 
 extern void show_version();
 
