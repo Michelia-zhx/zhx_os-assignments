@@ -7,9 +7,9 @@ int main(int argc, char *argv[]) {
   int show_version = 0;
   for (int i = 0; i < argc; i++) {
     assert(argv[i]);
-    if (argv[i] == "-p" || argv[i] == "--show-pids") show_pid = 1;
-    if (argv[i] == "-n" || argv[i] == "--numeric-sort") num_sort = 1;
-    if (argv[i] == "-V" || argv[i] == "--version") show_version = 1;
+    if (strcmp(argv[i], "-p") == 0 || strcmp(argv[i], "--show-pids") == 0) show_pid = 1;
+    if (strcmp(argv[i], "-n") == 0 || strcmp(argv[i], "--numeric-sort") == 0) num_sort = 1;
+    if (strcmp(argv[i], "-V") == 0 || strcmp(argv[i], "--version") == 0) show_version = 1;
     printf("argv[%d] = %s\n", i, argv[i]);
   }
   printf("p: %d, n: %d, V: %d\n", show_pid, num_sort, show_version);
