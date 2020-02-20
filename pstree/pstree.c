@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
   struct dirent *direntp;
   dir_ptr = opendir("~/Documents");
   if (dir_ptr == NULL){
-    fprintf(stderr, "ls: cannot open /proc");
+    fprintf(stderr, "ls: cannot open\n");
   }
   else {
     direntp = readdir(dir_ptr);
