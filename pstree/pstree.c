@@ -41,10 +41,10 @@ int main(int argc, char *argv[]) {
   }
   else {
     direntp = readdir(dir_ptr);
-    while (direntp != NULL);{
+    while (direntp != NULL){
       printf("%s\n", direntp->d_name);
     }
-    closedir("~/proc");
+    closedir(dir_ptr);
   }
 
   return 0;
