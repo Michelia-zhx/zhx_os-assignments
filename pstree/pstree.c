@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 }
 
 void show_version(){
-  printf("pstree (designed by Hanxiao Zhang) 1.0\nCopyright (C) 2020 Hanxiao Zhang (a vegetable bird)\n");
+  printf("pstree 1.0\nCopyright (C) 2020 Hanxiao Zhang (a vegetable bird)\n");
   printf("\nThis is a poor and free software\nAnd if anything goes wrong, don't ask me.\n");
   return;
 }
