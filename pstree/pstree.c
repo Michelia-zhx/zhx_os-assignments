@@ -72,7 +72,7 @@ pid_t *get_pids(int *num_pid, pid_t *max_pid){
     if (ptr->d_type == 4 && strspn(ptr->d_name, "0123456789") == strlen(ptr->d_name)){
       sys_pids[i] = atoi(ptr->d_name);
       if (*max_pid < atoi(ptr->d_name)) *max_pid = atoi(ptr->d_name);
-      // printf("%d  ", atoi(ptr->d_name));
+      printf("%d  ", atoi(ptr->d_name));
       if ((i+1)%10 == 0) printf("\n");
       (*num_pid) ++;
       i ++;
