@@ -75,8 +75,10 @@ pid_t *get_pids(int *num_pid){
     if (ptr == NULL) break;
     if (ptr->d_type == 4 && strspn(ptr->d_name, "0123456789") == strlen(ptr->d_name)){
       sys_pids[i] = atoi(ptr->d_name);
+      printf("%d\n", atoi(ptr->d_name));
     }
   }
+  closedir(dir);
   printf("num_pid: %d, i: %d\n", *num_pid, i);
   assert(i == *num_pid);
   return sys_pids;
