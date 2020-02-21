@@ -2,6 +2,8 @@
 #include <string.h>
 #include <dirent.h>
 #include <assert.h>
+#include <unistd.h>
+#include <sys/types.h>
 
 typedef struct PNode{
   char *pname;
@@ -12,6 +14,7 @@ typedef struct PNode{
 }root;
 
 extern void show_version();
+extern pid_t *get_pids(int *num_pid);
 
 int main(int argc, char *argv[]) {
   int show_p = 0;
@@ -33,19 +36,8 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
-  DIR *dir_ptr;
-  struct dirent *direntp;
-  dir_ptr = opendir("~/Documents");
-  if (dir_ptr == NULL){
-    fprintf(stderr, "ls: cannot open\n");
-  }
-  else {
-    direntp = readdir(dir_ptr);
-    while (direntp != NULL){
-      printf("%s\n", direntp->d_name);
-    }
-    closedir(dir_ptr);
-  }
+  int num_pid = 0;
+  pid_t *pids = get_pids(&num_pid);
 
   return 0;
 }
@@ -54,4 +46,23 @@ void show_version(){
   printf("pstree 1.0\nCopyright (C) 2020 Hanxiao Zhang (a vegetable bird)\n");
   printf("\nThis is a poor and free software\nAnd if anything goes wrong, don't ask me.\n");
   return;
+}
+
+pid_t *get_pids(int *num_pid){
+  DIR *dir;
+  struct dirent *ptr;
+  dir = opendir("~/proc");
+  if (dir == NULL){
+    perror("cannot open /proc\n");
+    exit(-1);
+  }
+  else {
+    ptr = readdir(dir);
+    while (ptr != NULL){
+      if (ptr->d_type == 4 && '0' <= (ptr->d_name)[0] <= '9'){
+        printf("%s\n", ptr->d_name);
+      }
+    }
+    closedir(dir);
+  }
 }
