@@ -16,6 +16,7 @@ typedef struct Node{
 
 extern void show_version();
 extern pid_t *get_pids(int *num_pid, pid_t *max_pid);
+extern pid_t get_num(char *line);
 
 int main(int argc, char *argv[]) {
   int show_p = 0;
@@ -121,7 +122,7 @@ pid_t get_num(char *line){
   pid_t id = 0;
   char *ptr = line[0];
   while ((*ptr) != '\0'){
-    if ('0' <= (*ptr) <= '9')
+    if ('0' <= (*ptr) && (*ptr) <= '9')
       id = id*10+((*ptr)-'0');
     ptr ++;
   }
