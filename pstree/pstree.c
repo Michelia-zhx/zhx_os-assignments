@@ -59,7 +59,7 @@ pid_t *get_pids(int *num_pid){
   }
   else {
     ptr = readdir(dir);
-    while (ptr != NULL){
+    while (ptr=readdir(dir) != NULL){
       if (ptr->d_type == 4 && strspn(ptr->d_name, "0123456789") == strlen(ptr->d_name)){
         printf("%s\n", ptr->d_name);
       }
