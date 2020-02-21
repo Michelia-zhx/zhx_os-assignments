@@ -60,8 +60,8 @@ pid_t *get_pids(int *num_pid){
   }
   while ((ptr=readdir(dir)) != NULL){
     if (ptr->d_type == 4 && strspn(ptr->d_name, "0123456789") == strlen(ptr->d_name)){
-      // printf("%s\n", ptr->d_name);
-      *num_pid ++;
+      printf("%s\n", ptr->d_name);
+      (*num_pid) ++;
     }
   }
   closedir(dir);
