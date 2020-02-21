@@ -50,7 +50,6 @@ void show_version(){
 }
 
 pid_t *get_pids(int *num_pid){
-  printf("1\n");
   DIR *dir;
   struct dirent *ptr;
   dir = opendir("/proc");
@@ -65,7 +64,8 @@ pid_t *get_pids(int *num_pid){
   while ((ptr=readdir(dir)) != NULL){
     if (ptr->d_type == 4 && strspn(ptr->d_name, "0123456789") == strlen(ptr->d_name)){
       sys_pids[i] = atoi(ptr->d_name);
-      printf("%d\n", atoi(ptr->d_name));
+      printf("%d  ", atoi(ptr->d_name));
+      if ((i+1)%10 == 0) printf("\n");
       (*num_pid) ++;
       i ++;
       if (i == list_size){ // if the list is not long enough, expand the pid list
@@ -80,22 +80,9 @@ pid_t *get_pids(int *num_pid){
     }
   }
   closedir(dir);
-
   if (!sys_pids) {
     exit(-1);
   }
-  /*
-  dir = opendir("/proc");
-  for (; i < *num_pid; i ++){
-    ptr = readdir(dir);
-    if (ptr == NULL) break;
-    if (ptr->d_type == 4 && strspn(ptr->d_name, "0123456789") == strlen(ptr->d_name)){
-      sys_pids[i] = atoi(ptr->d_name);
-      printf("%d\n", atoi(ptr->d_name));
-    }
-  }
-  closedir(dir);
-  */
   printf("num_pid: %d, i: %d\n", *num_pid, i);
   return sys_pids;
 }
