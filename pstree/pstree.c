@@ -66,4 +66,5 @@ pid_t *get_pids(int *num_pid){
     }
     closedir(dir);
   }
+  return NULL;
 }
