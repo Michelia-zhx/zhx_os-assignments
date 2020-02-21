@@ -58,10 +58,10 @@ int main(int argc, char *argv[]) {
     free(buff);
     char pid_buff[50];
     fgets(pid_buff, 50, status);
-    printf("pid_buff: %s\n", pid_buff);
+    printf("pid_buff: %s", pid_buff);
     char ppid_buff[50];
     fgets(ppid_buff, 50, status);
-    printf("ppid_buff: %s\n", ppid_buff);
+    printf("ppid_buff: %s", ppid_buff);
   }
   return 0;
 }
