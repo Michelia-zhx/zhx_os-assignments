@@ -6,13 +6,13 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-typedef struct PNode{
+typedef struct Node{
   char *pname;
   int pid; 
   int ppid;
   struct PNode *l_child;
   struct PNode *r_bro;
-}root;
+}PNode;
 
 extern void show_version();
 extern pid_t *get_pids(int *num_pid, pid_t *max_pid);
@@ -40,8 +40,12 @@ int main(int argc, char *argv[]) {
   int num_pid = 0;
   pid_t max_pid = 0;
   pid_t *sys_pids = get_pids(&num_pid, &max_pid);
+  PNode *ps_tree = (PNode *)malloc((max_pid)*sizeof(PNode));
   for (int i = 0; i < num_pid; i ++){
     pid_t pid = sys_pids[i];
+    char filename[25];
+    sprintf(filename, "/proc/%d/status", pid);
+    printf("%s\n", filename);
   }
   return 0;
 }
@@ -68,7 +72,7 @@ pid_t *get_pids(int *num_pid, pid_t *max_pid){
     if (ptr->d_type == 4 && strspn(ptr->d_name, "0123456789") == strlen(ptr->d_name)){
       sys_pids[i] = atoi(ptr->d_name);
       if (*max_pid < atoi(ptr->d_name)) *max_pid = atoi(ptr->d_name);
-      printf("%d  ", atoi(ptr->d_name));
+      // printf("%d  ", atoi(ptr->d_name));
       if ((i+1)%10 == 0) printf("\n");
       (*num_pid) ++;
       i ++;
