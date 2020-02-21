@@ -50,6 +50,7 @@ void show_version(){
 }
 
 pid_t *get_pids(int *num_pid){
+  printf("1\n");
   DIR *dir;
   struct dirent *ptr;
   dir = opendir("/proc");
