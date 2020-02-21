@@ -58,7 +58,7 @@ pid_t *get_pids(int *num_pid){
     perror("cannot open /proc\n");
     exit(-1);
   }
-  int list_size = 300;  // initial size of pid list
+  int list_size = 100;  // initial size of pid list
   pid_t *sys_pids = (pid_t *)malloc(list_size*sizeof(pid_t));
   pid_t *new_list = NULL;
   int i = 0;
