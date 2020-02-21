@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < 1; i ++){
     pid_t pid = sys_pids[i];
     char filename[25];
-    sprintf(filename, "/proc/%d/status", pid);
+    sprintf(filename, "/proc/%d/status", 1387);
     // printf("%s\n", filename);
     FILE *status = fopen(filename, "r");
     if (status == NULL){
