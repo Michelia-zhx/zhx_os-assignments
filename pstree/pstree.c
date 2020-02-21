@@ -70,7 +70,7 @@ pid_t *get_pids(int *num_pid){
   }
   int i = 0;
   dir = opendir("/proc");
-  for (; i < num_pid; i ++){
+  for (; i < *num_pid; i ++){
     ptr = readdir(dir);
     if (ptr == NULL) break;
     if (ptr->d_type == 4 && strspn(ptr->d_name, "0123456789") == strlen(ptr->d_name)){
