@@ -41,35 +41,83 @@ int main(int argc, char *argv[]) {
   int num_pid = 0;
   pid_t max_pid = 0;
   pid_t *sys_pids = get_pids(&num_pid, &max_pid);
-  PNode *ps_tree = (PNode *)malloc((max_pid)*sizeof(PNode));
-  for (int i = 0; i < 1; i ++){
+  PNode *ps_tree = (PNode *)malloc((max_pid + 1)*sizeof(PNode));
+  for (int i = 0; i < max_pid+1; i ++){
+    PNode pnode = ps_tree[i];
+    pnode.pid = 0;
+    pnode.ppid = 0;
+    pnode.pname = NULL;
+    pnode.l_child = NULL;
+    pnode.r_bro = NULL;
+  }
+  for (int i = 0; i < num_pid; i ++){
     pid_t pid = sys_pids[i];
-    pid = 1387;
     char filename[25];
-    sprintf(filename, "/proc/%d/status", 1387);
+    sprintf(filename, "/proc/%d/status", pid);
     // printf("%s\n", filename);
     FILE *status = fopen(filename, "r");
     if (status == NULL){
       printf("error when opening %s\n", filename);
       exit(-1);
     }
-
     char * buff = (char *)malloc(50*sizeof(char));
     for (int i = 0; i < 5; i ++){
       fgets(buff, 50, status);
     }
     free(buff);
-
     char pid_buff[50];
     fgets(pid_buff, 50, status);
     pid_t pid_status = get_num(pid_buff);
     assert(pid_status == pid);
-    printf("pid_buff: %s, pid_status: %d\n", pid_buff, pid_status);
-
+    // printf("pid_buff: %s, pid_status: %d\n", pid_buff, pid_status);
     char ppid_buff[50];
     fgets(ppid_buff, 50, status);
     pid_t ppid = get_num(ppid_buff);
-    printf("ppid_buff: %s, ppid_status: %d\n", ppid_buff, ppid);
+    // printf("ppid_buff: %s, ppid_status: %d\n", ppid_buff, ppid);
+    fclose(filename);
+    
+    // build the tree
+    PNode cur_node = ps_tree[pid];
+    cur_node.pid = pid;
+    cur_node.ppid = ppid;
+    PNode p_node = ps_tree[ppid];
+    if (p_node.l_child == NULL)  p_node.l_child = &(cur_node);
+    else {
+      if (!num_s){  // if not need to sort by pid
+        PNode *temp = p_node.l_child;
+        while(temp->r_bro != NULL)  temp = temp->r_bro;
+        temp->r_bro = &(cur_node);
+      }
+      else {  // insert node by pid
+        PNode *temp1 = p_node.l_child;
+        PNode *temp2 = p_node.l_child;
+        temp2 = temp2->r_bro;
+        if (temp1->pid > pid){  // insert at the head of child_node list
+          cur_node.r_bro = temp1;
+          p_node.l_child = &cur_node;
+        }
+        else {  // insert at the middle or tail of child_node list
+          if (!temp2){
+            temp1->r_bro = &cur_node;
+            cur_node.r_bro = NULL;
+          }
+          while (temp2){
+            assert(temp1->pid != pid && temp2->pid != pid);
+            if (temp1->pid < pid && pid < temp2){
+              cur_node.r_bro = temp1->r_bro;
+              temp1->r_bro = &cur_node;
+              break;
+            }
+            temp1 = temp1->r_bro;
+            temp2 = temp2->r_bro;
+            if (!temp2){
+              temp1->r_bro = &cur_node;
+              cur_node.r_bro = NULL;
+            }
+          }
+        }
+      }
+    }
   }
   return 0;
 }
