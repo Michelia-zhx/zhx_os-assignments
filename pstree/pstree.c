@@ -15,7 +15,7 @@ typedef struct PNode{
 }root;
 
 extern void show_version();
-extern pid_t *get_pids(int *num_pid);
+extern pid_t *get_pids(int *num_pid, pid_t *max_pid);
 
 int main(int argc, char *argv[]) {
   int show_p = 0;
@@ -38,8 +38,11 @@ int main(int argc, char *argv[]) {
   }
 
   int num_pid = 0;
-  pid_t *pids = get_pids(&num_pid);
-
+  pid_t max_pid = 0;
+  pid_t *sys_pids = get_pids(&num_pid, &max_pid);
+  for (int i = 0; i < num_pid; i ++){
+    pid_t pid = sys_pids[i];
+  }
   return 0;
 }
 
@@ -49,7 +52,7 @@ void show_version(){
   return;
 }
 
-pid_t *get_pids(int *num_pid){
+pid_t *get_pids(int *num_pid, pid_t *max_pid){
   DIR *dir;
   struct dirent *ptr;
   dir = opendir("/proc");
@@ -57,13 +60,14 @@ pid_t *get_pids(int *num_pid){
     perror("cannot open /proc\n");
     exit(-1);
   }
-  int list_size = 100;  // initial size of pid list
+  int list_size = 300;  // initial size of pid list
   pid_t *sys_pids = (pid_t *)malloc(list_size*sizeof(pid_t));
   pid_t *new_list = NULL;
   int i = 0;
   while ((ptr=readdir(dir)) != NULL){
     if (ptr->d_type == 4 && strspn(ptr->d_name, "0123456789") == strlen(ptr->d_name)){
       sys_pids[i] = atoi(ptr->d_name);
+      if (*max_pid < atoi(ptr->d_name)) *max_pid = atoi(ptr->d_name);
       printf("%d  ", atoi(ptr->d_name));
       if ((i+1)%10 == 0) printf("\n");
       (*num_pid) ++;
@@ -83,6 +87,6 @@ pid_t *get_pids(int *num_pid){
   if (!sys_pids) {
     exit(-1);
   }
-  printf("num_pid: %d, i: %d\n", *num_pid, i);
+  printf("max_pid: %d, num_pid: %d, i: %d\n",*max_pid, *num_pid, i);
   return sys_pids;
 }
