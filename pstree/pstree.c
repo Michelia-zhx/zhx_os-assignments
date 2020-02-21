@@ -58,18 +58,33 @@ pid_t *get_pids(int *num_pid){
     perror("cannot open /proc\n");
     exit(-1);
   }
+  int list_size = 300;  // initial size of pid list
+  pid_t *sys_pids = (pid_t *)malloc(list_size*sizeof(pid_t));
+  pid_t *new_list = NULL;
+  int i = 0;
   while ((ptr=readdir(dir)) != NULL){
     if (ptr->d_type == 4 && strspn(ptr->d_name, "0123456789") == strlen(ptr->d_name)){
-      printf("%s\n", ptr->d_name);
+      sys_pids[i] = atoi(ptr->d_name);
+      printf("%d\n", atoi(ptr->d_name));
       (*num_pid) ++;
+      i ++;
+      if (i == list_size){ // if the list is not long enough, expand the pid list
+        list_size += 100;
+        new_list = (pid_t *)malloc(list_size*sizeof(pid_t));
+        for (int j = 0; j < i; j ++){
+          new_list[j] = sys_pids[j];
+        }
+        free(sys_pids);
+        sys_pids = new_list;
+      }
     }
   }
   closedir(dir);
-  pid_t *sys_pids = (pid_t *)malloc((*num_pid)*sizeof(pid_t));
+
   if (!sys_pids) {
     exit(-1);
   }
-  int i = 0;
+  /*
   dir = opendir("/proc");
   for (; i < *num_pid; i ++){
     ptr = readdir(dir);
@@ -80,7 +95,7 @@ pid_t *get_pids(int *num_pid){
     }
   }
   closedir(dir);
+  */
   printf("num_pid: %d, i: %d\n", *num_pid, i);
-  assert(i == *num_pid);
   return sys_pids;
 }
