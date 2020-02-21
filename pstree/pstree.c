@@ -41,11 +41,24 @@ int main(int argc, char *argv[]) {
   pid_t max_pid = 0;
   pid_t *sys_pids = get_pids(&num_pid, &max_pid);
   PNode *ps_tree = (PNode *)malloc((max_pid)*sizeof(PNode));
-  for (int i = 0; i < num_pid; i ++){
+  for (int i = 0; i < 1; i ++){
     pid_t pid = sys_pids[i];
     char filename[25];
     sprintf(filename, "/proc/%d/status", pid);
-    printf("%s\n", filename);
+    // printf("%s\n", filename);
+    FILE *status = fopen(filename, "r");
+    if (status == NULL){
+      printf("error when opening %s\n", filename);
+      exit(-1);
+    }
+    char * buff = (char *)malloc(50*sizeof(char));
+    for (int i = 0; i < 5; i ++){
+      fgets(buff, 50, status);
+    }
+    free(buff);
+    char pid_buff[50];
+    fgets(pid_buff, 50, status);
+    printf("pid_buff: %s\n", pid_buff);
   }
   return 0;
 }
@@ -61,7 +74,7 @@ pid_t *get_pids(int *num_pid, pid_t *max_pid){
   struct dirent *ptr;
   dir = opendir("/proc");
   if (dir == NULL){
-    perror("cannot open /proc\n");
+    printf("error when opening /proc\n");
     exit(-1);
   }
   int list_size = 300;  // initial size of pid list
