@@ -52,7 +52,7 @@ void show_version(){
 pid_t *get_pids(int *num_pid){
   DIR *dir;
   struct dirent *ptr;
-  dir = opendir("~/proc");
+  dir = opendir("/proc");
   if (dir == NULL){
     perror("cannot open /proc\n");
     exit(-1);
