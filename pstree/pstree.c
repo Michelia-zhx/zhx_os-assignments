@@ -120,7 +120,7 @@ pid_t *get_pids(int *num_pid, pid_t *max_pid){
 
 pid_t get_num(char *line){
   pid_t id = 0;
-  char *ptr = line[0];
+  char *ptr = line;
   while ((*ptr) != '\0'){
     if ('0' <= (*ptr) && (*ptr) <= '9')
       id = id*10+((*ptr)-'0');
