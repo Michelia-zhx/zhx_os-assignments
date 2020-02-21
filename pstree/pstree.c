@@ -59,6 +59,9 @@ int main(int argc, char *argv[]) {
     char pid_buff[50];
     fgets(pid_buff, 50, status);
     printf("pid_buff: %s\n", pid_buff);
+    char ppid_buff[50];
+    fgets(ppid_buff, 50, status);
+    printf("ppid_buff: %s\n", ppid_buff);
   }
   return 0;
 }
