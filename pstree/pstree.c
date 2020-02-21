@@ -77,6 +77,7 @@ pid_t *get_pids(int *num_pid){
       sys_pids[i] = atoi(ptr->d_name);
     }
   }
+  printf("num_pid: %d, i: %d\n", num_pid, i);
   assert(i == *num_pid);
   return sys_pids;
 }
