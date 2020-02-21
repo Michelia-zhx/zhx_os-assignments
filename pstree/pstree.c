@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
   PNode *ps_tree = (PNode *)malloc((max_pid)*sizeof(PNode));
   for (int i = 0; i < 1; i ++){
     pid_t pid = sys_pids[i];
+    pid = 1387;
     char filename[25];
     sprintf(filename, "/proc/%d/status", 1387);
     // printf("%s\n", filename);
