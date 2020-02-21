@@ -51,17 +51,23 @@ int main(int argc, char *argv[]) {
       printf("error when opening %s\n", filename);
       exit(-1);
     }
+
     char * buff = (char *)malloc(50*sizeof(char));
     for (int i = 0; i < 5; i ++){
       fgets(buff, 50, status);
     }
     free(buff);
+
     char pid_buff[50];
     fgets(pid_buff, 50, status);
-    printf("pid_buff: %s", pid_buff);
+    pid_t pid_status = get_num(pid_buff);
+    assert(pid_status == pid);
+    printf("pid_buff: %s, pid_status: %d\n", pid_buff, pid_status);
+
     char ppid_buff[50];
     fgets(ppid_buff, 50, status);
-    printf("ppid_buff: %s", ppid_buff);
+    pid_t ppid = get_num(ppid_buff);
+    printf("ppid_buff: %s, ppid_status: %d\n", ppid_buff, ppid);
   }
   return 0;
 }
@@ -109,4 +115,15 @@ pid_t *get_pids(int *num_pid, pid_t *max_pid){
   }
   printf("max_pid: %d, num_pid: %d, i: %d\n",*max_pid, *num_pid, i);
   return sys_pids;
+}
+
+pid_t get_num(char *line){
+  pid_t id = 0;
+  char *ptr = line[0];
+  while ((*ptr) != '\0'){
+    if ('0' <= (*ptr) <= '9')
+      id = id*10+((*ptr)-'0');
+    ptr ++;
+  }
+  return id;
 }
