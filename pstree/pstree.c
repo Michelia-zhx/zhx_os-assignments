@@ -80,18 +80,18 @@ int main(int argc, char *argv[]) {
     
     //  get pid of the process
     char * pid_buff = (char *)malloc(50*sizeof(char));
-    fscanf(status, 50, pid_buff);
+    fscanf(status, "%s", pid_buff);
     free(pid_buff);
-    fscanf(status, 50, pid_buff);
+    fscanf(status, "%s", pid_buff);
     pid_t pid_status = atoi(pid_buff);
     assert(pid_status == pid);
     printf("pid_buff: %s, pid_status: %d\n", pid_buff, pid_status);
     
     //  get parent pid of the process
     char * ppid_buff = (char *)malloc(50*sizeof(char));
-    fscanf(status, 50, ppid_buff);
-    free(pid_buff);
-    fscanf(status, 50, ppid_buff);
+    fscanf(status, "%s", ppid_buff);
+    free(ppid_buff);
+    fscanf(status, "%s", ppid_buff);
     pid_t ppid = atoi(ppid_buff);
     printf("ppid_buff: %s, ppid_status: %d\n", ppid_buff, ppid);
     fclose(status);
