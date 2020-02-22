@@ -64,13 +64,13 @@ int main(int argc, char *argv[]) {
       printf("error when opening %s\n", filename);
       exit(-1);
     }
-
+    printf("1\n");
     // get p_name of the process
     char * name_buff = (char *)malloc(50*sizeof(char));
     fscanf(status, "%s", name_buff);
     free(name_buff);
     fscanf(status, "%s", name_buff);
-    printf("pname: %s", name_buff);
+    printf("pname: %s\n", name_buff);
     
     char * temp_buff = (char *)malloc(50*sizeof(char));
     for (int i = 0; i < 5; i ++){
