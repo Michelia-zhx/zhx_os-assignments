@@ -77,16 +77,18 @@ int main(int argc, char *argv[]) {
       fgets(temp_buff, 50, status);
     }
     free(temp_buff);
+    
     //  get pid of the process
-    char pid_buff[50];
+    char * pid_buff = (char *)malloc(50*sizeof(char));
     fscanf(status, 50, pid_buff);
     free(pid_buff);
     fscanf(status, 50, pid_buff);
     pid_t pid_status = atoi(pid_buff);
     assert(pid_status == pid);
     printf("pid_buff: %s, pid_status: %d\n", pid_buff, pid_status);
+    
     //  get parent pid of the process
-    char ppid_buff[50];
+    char * ppid_buff = (char *)malloc(50*sizeof(char));
     fscanf(status, 50, ppid_buff);
     free(pid_buff);
     fscanf(status, 50, ppid_buff);
