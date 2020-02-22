@@ -6,12 +6,12 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-typedef struct {
+typedef struct Node{
   char *pname;
   int pid; 
   int ppid;
-  struct PNode *l_child;
-  struct PNode *r_bro;
+  struct Node *l_child;
+  struct Node *r_bro;
 }PNode;
 
 extern void show_version();
