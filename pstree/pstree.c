@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-typedef struct Node{
+typedef struct {
   char *pname;
   int pid; 
   int ppid;
