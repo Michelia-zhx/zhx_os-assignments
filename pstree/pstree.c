@@ -81,12 +81,12 @@ int main(int argc, char *argv[]) {
     cur_node->pid = pid;
     cur_node->ppid = ppid;
     PNode *p_node = &(ps_tree[ppid]);
-    if (p_node->l_child == NULL)  p_node->l_child = &(cur_node);
+    if (p_node->l_child == NULL)  p_node->l_child = cur_node;
     else {
       if (!num_s){  // if not need to sort by pid
         PNode *temp = p_node->l_child;
         while(temp->r_bro != NULL)  temp = temp->r_bro;
-        temp->r_bro = &(cur_node);
+        temp->r_bro = cur_node;
       }
       else {  // insert node by pid
         PNode *temp1 = p_node->l_child;
@@ -94,24 +94,24 @@ int main(int argc, char *argv[]) {
         temp2 = temp2->r_bro;
         if (temp1->pid > pid){  // insert at the head of child_node list
           cur_node->r_bro = temp1;
-          p_node->l_child = &cur_node;
+          p_node->l_child = cur_node;
         }
         else {  // insert at the middle or tail of child_node list
           if (!temp2){
-            temp1->r_bro = &cur_node;
+            temp1->r_bro = cur_node;
             cur_node->r_bro = NULL;
           }
           while (temp2){
             assert(temp1->pid != pid && temp2->pid != pid);
             if (temp1->pid < pid && pid < temp2->pid){
               cur_node->r_bro = temp1->r_bro;
-              temp1->r_bro = &cur_node;
+              temp1->r_bro = cur_node;
               break;
             }
             temp1 = temp1->r_bro;
             temp2 = temp2->r_bro;
             if (!temp2){
-              temp1->r_bro = &cur_node;
+              temp1->r_bro = cur_node;
               cur_node->r_bro = NULL;
             }
           }
