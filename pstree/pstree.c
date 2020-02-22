@@ -51,6 +51,7 @@ int main(int argc, char *argv[]) {
     pnode->r_bro = NULL;
   }
   for (int i = 0; i < num_pid; i ++){
+    // get the information of each node
     pid_t pid = sys_pids[i];
     char filename[25];
     sprintf(filename, "/proc/%d/status", pid);
@@ -119,6 +120,12 @@ int main(int argc, char *argv[]) {
       }
     }
   }
+
+  for (int i = 1; i < max_pid; i ++){
+    PNode *a = &(ps_tree[i]);
+    printf("pid: %d, ppid: %d\n", a->pid, a->ppid);
+  }
+  
   return 0;
 }
 
