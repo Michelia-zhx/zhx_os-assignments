@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
     fgets(ppid_buff, 50, status);
     pid_t ppid = get_num(ppid_buff);
     // printf("ppid_buff: %s, ppid_status: %d\n", ppid_buff, ppid);
-    fclose(filename);
+    fclose(status);
     
     // build the tree
     PNode cur_node = ps_tree[pid];
