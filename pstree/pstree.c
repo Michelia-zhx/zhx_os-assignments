@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
     fscanf(status, "%s", name_buff);
     free(name_buff);
     fscanf(status, "%s", name_buff);
-    for (int i = 0; i < 4; i ++){
+    for (int i = 0; i < 5; i ++){
       fgets(name_buff, 50, status);
     }
     printf("pname: %s\n", name_buff);
