@@ -103,6 +103,7 @@ int main(int argc, char *argv[]) {
     cur_node->pid = pid;
     cur_node->ppid = ppid;
     PNode *p_node = &(ps_tree[ppid]);
+    if (!p_node) continue;
     if (p_node->l_child == NULL) {
       p_node->l_child = cur_node;
       p_node->space_num = 0;
