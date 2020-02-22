@@ -10,6 +10,7 @@ typedef struct Node{
   char *pname;
   int pid; 
   int ppid;
+  int space_num;
   struct Node *l_child;
   struct Node *r_bro;
 }PNode;
@@ -45,9 +46,10 @@ int main(int argc, char *argv[]) {
   PNode *ps_tree = (PNode *)malloc((max_pid + 1)*sizeof(PNode));
   for (int i = 0; i < max_pid+1; i ++){
     PNode *pnode = &(ps_tree[i]);
+    pnode->pname = NULL;
     pnode->pid = 0;
     pnode->ppid = 0;
-    pnode->pname = NULL;
+    pnode->space_num = 0;
     pnode->l_child = NULL;
     pnode->r_bro = NULL;
   }
@@ -62,11 +64,15 @@ int main(int argc, char *argv[]) {
       printf("error when opening %s\n", filename);
       exit(-1);
     }
-    char * buff = (char *)malloc(50*sizeof(char));
-    for (int i = 0; i < 5; i ++){
-      fgets(buff, 50, status);
+
+    char * name_buff = (char *)malloc(50*sizeof(char));
+    fscanf(status, "%s", name_buff);
+    free(name_buff);
+    fscanf(status, "%s", name_buff);
+    for (int i = 0; i < 4; i ++){
+      fgets(name_buff, 50, status);
     }
-    free(buff);
+    printf("pname: %s\n", name_buff);
     char pid_buff[50];
     fgets(pid_buff, 50, status);
     pid_t pid_status = get_num(pid_buff);
@@ -80,15 +86,21 @@ int main(int argc, char *argv[]) {
     
     // build the tree
     PNode *cur_node = &(ps_tree[pid]);
+    cur_node->pname = name_buff;
     cur_node->pid = pid;
     cur_node->ppid = ppid;
     PNode *p_node = &(ps_tree[ppid]);
-    if (p_node->l_child == NULL)  p_node->l_child = cur_node;
+    if (p_node->l_child == NULL) {
+      p_node->l_child = cur_node;
+      p_node->space_num = 0;
+    }
     else {
       if (!num_s){  // if not need to sort by pid
         PNode *temp = p_node->l_child;
         while(temp->r_bro != NULL)  temp = temp->r_bro;
         temp->r_bro = cur_node;
+        cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
+        if (p_node == &(ps_tree[1])) cur_node->space_num -= 2;
       }
       else {  // insert node by pid
         PNode *temp1 = p_node->l_child;
@@ -97,17 +109,23 @@ int main(int argc, char *argv[]) {
         if (temp1->pid > pid){  // insert at the head of child_node list
           cur_node->r_bro = temp1;
           p_node->l_child = cur_node;
+          cur_node->space_num = 0;
+          temp1->space_num = p_node->space_num + strlen(p_node->pname) + 2;
+          if (p_node == &(ps_tree[1])) temp1->space_num -= 2;
         }
         else {  // insert at the middle or tail of child_node list
           if (!temp2){
             temp1->r_bro = cur_node;
             cur_node->r_bro = NULL;
+            cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
+            if (p_node == &(ps_tree[1])) cur_node->space_num -= 2;
           }
           while (temp2){
             assert(temp1->pid != pid && temp2->pid != pid);
             if (temp1->pid < pid && pid < temp2->pid){
               cur_node->r_bro = temp1->r_bro;
               temp1->r_bro = cur_node;
+              cur_node->space_num = temp2->space_num;
               break;
             }
             temp1 = temp1->r_bro;
@@ -115,6 +133,8 @@ int main(int argc, char *argv[]) {
             if (!temp2){
               temp1->r_bro = cur_node;
               cur_node->r_bro = NULL;
+              cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
+              if (p_node == &(ps_tree[1])) cur_node->space_num -= 2;
             }
           }
         }
