@@ -43,12 +43,12 @@ int main(int argc, char *argv[]) {
   pid_t *sys_pids = get_pids(&num_pid, &max_pid);
   PNode *ps_tree = (PNode *)malloc((max_pid + 1)*sizeof(PNode));
   for (int i = 0; i < max_pid+1; i ++){
-    PNode pnode = ps_tree[i];
-    pnode.pid = 0;
-    pnode.ppid = 0;
-    pnode.pname = NULL;
-    pnode.l_child = NULL;
-    pnode.r_bro = NULL;
+    PNode *pnode = &(ps_tree[i]);
+    pnode->pid = 0;
+    pnode->ppid = 0;
+    pnode->pname = NULL;
+    pnode->l_child = NULL;
+    pnode->r_bro = NULL;
   }
   for (int i = 0; i < num_pid; i ++){
     pid_t pid = sys_pids[i];
