@@ -17,6 +17,7 @@ typedef struct Node{
 extern void show_version();
 extern pid_t *get_pids(int *num_pid, pid_t *max_pid);
 extern pid_t get_num(char *line);
+extern void print_tree(int show_p, PNode *root);
 
 int main(int argc, char *argv[]) {
   int show_p = 0;
@@ -121,11 +122,13 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  for (int i = 1; i < max_pid; i ++){
+  for (int i = 1; i <= max_pid; i ++){
     PNode *a = &(ps_tree[i]);
     printf("pid: %d, ppid: %d\n", a->pid, a->ppid);
   }
   
+  print_tree(show_p, &(ps_tree[1]));
+
   return 0;
 }
 
@@ -183,4 +186,8 @@ pid_t get_num(char *line){
     ptr ++;
   }
   return id;
+}
+
+void print_tree(int show_p, PNode *root){
+  return;
 }
