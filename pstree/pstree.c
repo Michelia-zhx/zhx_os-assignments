@@ -17,7 +17,6 @@ typedef struct Node{
 
 extern void show_version();
 extern pid_t *get_pids(int *num_pid, pid_t *max_pid);
-extern pid_t get_num(char *line);
 extern void print_tree(int show_p, PNode *root);
 
 int main(int argc, char *argv[]) {
@@ -54,6 +53,7 @@ int main(int argc, char *argv[]) {
     pnode->r_bro = NULL;
   }
   for (int i = 0; i < num_pid; i ++){
+    printf("loop %d\n", i+1);
     // get the information of each node
     pid_t pid = sys_pids[i];
     char filename[25];
@@ -95,6 +95,7 @@ int main(int argc, char *argv[]) {
     pid_t ppid = atoi(ppid_buff);
     printf("ppid_buff: %s, ppid_status: %d\n", ppid_buff, ppid);
     fclose(status);
+    printf("2\n");
     
     // build the tree
     PNode *cur_node = &(ps_tree[pid]);
@@ -207,17 +208,6 @@ pid_t *get_pids(int *num_pid, pid_t *max_pid){
   }
   printf("max_pid: %d, num_pid: %d, i: %d\n",*max_pid, *num_pid, i);
   return sys_pids;
-}
-
-pid_t get_num(char *line){
-  pid_t id = 0;
-  char *ptr = line;
-  while ((*ptr) != '\0'){
-    if ('0' <= (*ptr) && (*ptr) <= '9')
-      id = id*10+((*ptr)-'0');
-    ptr ++;
-  }
-  return id;
 }
 
 void print_tree(int show_p, PNode *root){
