@@ -79,14 +79,18 @@ int main(int argc, char *argv[]) {
     free(temp_buff);
     //  get pid of the process
     char pid_buff[50];
-    fgets(pid_buff, 50, status);
-    pid_t pid_status = get_num(pid_buff);
+    fscanf(status, 50, pid_buff);
+    free(pid_buff);
+    fscanf(status, 50, pid_buff);
+    pid_t pid_status = atoi(pid_buff);
     assert(pid_status == pid);
     printf("pid_buff: %s, pid_status: %d\n", pid_buff, pid_status);
     //  get parent pid of the process
     char ppid_buff[50];
-    fgets(ppid_buff, 50, status);
-    pid_t ppid = get_num(ppid_buff);
+    fscanf(status, 50, ppid_buff);
+    free(pid_buff);
+    fscanf(status, 50, ppid_buff);
+    pid_t ppid = atoi(ppid_buff);
     printf("ppid_buff: %s, ppid_status: %d\n", ppid_buff, ppid);
     fclose(status);
     
