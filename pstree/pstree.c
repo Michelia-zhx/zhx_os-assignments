@@ -158,7 +158,7 @@ int main(int argc, char *argv[]) {
 
   for (int i = 1; i <= max_pid; i ++){
     PNode *a = &(ps_tree[i]);
-    printf("pid: %d, ppid: %d\n", a->pid, a->ppid);
+    if (a->pid != 0) printf("pid: %d, ppid: %d\n", a->pid, a->ppid);
   }
   
   print_tree(show_p, &(ps_tree[1]));
