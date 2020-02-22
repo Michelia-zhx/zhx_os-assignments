@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
           }
           while (temp2){
             assert(temp1->pid != pid && temp2->pid != pid);
-            if (temp1->pid < pid && pid < temp2){
+            if (temp1->pid < pid && pid < temp2->pid){
               cur_node.r_bro = temp1->r_bro;
               temp1->r_bro = &cur_node;
               break;
