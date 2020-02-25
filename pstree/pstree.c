@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
     pnode->l_child = NULL;
     pnode->r_bro = NULL;
   }
-  for (int i = 0; i < 2; i ++){
+  for (int i = 0; i < num_pid; i ++){
     // printf("loop %d\n", i+1);
     // get the information of each node
     pid_t pid = sys_pids[i];
