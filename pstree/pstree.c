@@ -249,6 +249,6 @@ void helper(int show_p, PNode *root){
     helper(show_p, child);
     child = child->r_bro;
   }
-  printf("\n");
+  // printf("\n");
   return;
 }
