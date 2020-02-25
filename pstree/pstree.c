@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
     pnode->r_bro = NULL;
   }
   for (int i = 0; i < num_pid; i ++){
-    printf("loop %d\n", i+1);
+    // printf("loop %d\n", i+1);
     // get the information of each node
     pid_t pid = sys_pids[i];
     char filename[25];
@@ -66,13 +66,13 @@ int main(int argc, char *argv[]) {
       printf("error when opening %s\n", filename);
       exit(-1);
     }
-    printf("1\n");
+    // printf("1\n");
     // get p_name of the process
     char * name_buff = (char *)malloc(50*sizeof(char));
     fscanf(status, "%s", name_buff);
     free(name_buff);
     fscanf(status, "%s", name_buff);
-    printf("pname: %s\n", name_buff);
+    // printf("pname: %s\n", name_buff);
     
     char * temp_buff = (char *)malloc(50*sizeof(char));
     for (int i = 0; i < 5; i ++){
@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
     fscanf(status, "%s", pid_buff);
     pid_t pid_status = atoi(pid_buff);
     assert(pid_status == pid);
-    printf("pid_buff: %s, pid_status: %d\n", pid_buff, pid_status);
+    // printf("pid_buff: %s, pid_status: %d\n", pid_buff, pid_status);
     
     //  get parent pid of the process
     char * ppid_buff = (char *)malloc(50*sizeof(char));
@@ -95,9 +95,9 @@ int main(int argc, char *argv[]) {
     free(ppid_buff);
     fscanf(status, "%s", ppid_buff);
     pid_t ppid = atoi(ppid_buff);
-    printf("ppid_buff: %s, ppid_status: %d\n", ppid_buff, ppid);
+    // printf("ppid_buff: %s, ppid_status: %d\n", ppid_buff, ppid);
     fclose(status);
-    printf("2\n");
+    // printf("2\n");
     
     // build the tree
     PNode *cur_node = &(ps_tree[pid]);
@@ -156,7 +156,7 @@ int main(int argc, char *argv[]) {
 
   for (int i = 1; i <= max_pid; i ++){
     PNode *a = &(ps_tree[i]);
-    if (a->pid != 0) printf("pid: %d, ppid: %d\n", a->pid, a->ppid);
+    if (a->pid != 0) printf("pname: %s, pid: %d, ppid: %d\n",a->pname, a->pid, a->ppid);
   }
   
   print_tree(show_p, &(ps_tree[1]));
@@ -205,7 +205,7 @@ pid_t *get_pids(int *num_pid, pid_t *max_pid){
   if (!sys_pids) {
     exit(-1);
   }
-  printf("max_pid: %d, num_pid: %d, i: %d\n",*max_pid, *num_pid, i);
+  // printf("max_pid: %d, num_pid: %d, i: %d\n",*max_pid, *num_pid, i);
   return sys_pids;
 }
 
@@ -217,19 +217,20 @@ void print_tree(int show_p, PNode *root){
 
 void helper(int show_p, PNode *root){
   if (!root) {
-    printf("\n");
+    // printf("\n");
     return;
   }
   if (root->pid == 0) assert(0);
-  for (int i = 0; i < root->space_num; i ++) printf(" ");
+  
+  // for (int i = 0; i < root->space_num; i ++) printf(" ");
   printf("%s", root->pname);
-  if (show_p) printf("(%d)", root->pid);
+  // if (show_p) printf("(%d)", root->pid);
   PNode *child = root->l_child;
-  if (!child) printf("\n");
+  // if (!child) printf("\n");
   while (child != NULL){
     helper(show_p, child);
     child = child->r_bro;
   }
-  printf("\n");
+  // printf("\n");
   return;
 }
