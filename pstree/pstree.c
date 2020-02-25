@@ -112,8 +112,7 @@ int main(int argc, char *argv[]) {
     }
     if (p_node->l_child == NULL) {
       p_node->l_child = cur_node;
-      cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
-      if (show_p) cur_node->space_num += 2+p_node->len_pid;
+      cur_node->space_num = 0;
     }
     else {
       if (!num_s){  // if not need to sort by pid
