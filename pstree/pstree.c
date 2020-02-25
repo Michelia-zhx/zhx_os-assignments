@@ -10,7 +10,7 @@ typedef struct Node{
   char *pname;
   int pid; 
   int ppid;
-  int space_num;
+  int left_dis;
   int len_pid;
   struct Node *l_child;
   struct Node *r_bro;
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     pnode->pname = NULL;
     pnode->pid = 0;
     pnode->ppid = 0;
-    pnode->space_num = 0;
+    pnode->left_dis = 0;
     pnode->len_pid = 0;
     pnode->l_child = NULL;
     pnode->r_bro = NULL;
@@ -107,20 +107,20 @@ int main(int argc, char *argv[]) {
     cur_node->len_pid = get_len(pid);
     PNode *p_node = &(ps_tree[ppid]);
     if (p_node->pid == 0) {
-      cur_node->space_num = 0;
+      cur_node->left_dis = 0;
       continue;
     }
     if (p_node->l_child == NULL) {
       p_node->l_child = cur_node;
-      cur_node->space_num = 0;
+      cur_node->left_dis = 0;
     }
     else {
       if (!num_s){  // if not need to sort by pid
         PNode *temp = p_node->l_child;
         while(temp->r_bro != NULL)  temp = temp->r_bro;
         temp->r_bro = cur_node;
-        cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
-        if (show_p) cur_node->space_num += 2+p_node->len_pid;
+        cur_node->left_dis = p_node->left_dis + strlen(p_node->pname) + 2;
+        if (show_p) cur_node->left_dis += 2+p_node->len_pid;
       }
       else {  // insert node by pid
         PNode *temp1 = p_node->l_child;
@@ -129,23 +129,23 @@ int main(int argc, char *argv[]) {
         if (temp1->pid > pid){  // insert at the head of child_node list
           cur_node->r_bro = temp1;
           p_node->l_child = cur_node;
-          cur_node->space_num = 0;
-          temp1->space_num = p_node->space_num + strlen(p_node->pname) + 2;
-          if (show_p) cur_node->space_num += 2+p_node->len_pid;
+          cur_node->left_dis = 0;
+          temp1->left_dis = p_node->left_dis + strlen(p_node->pname) + 2;
+          if (show_p) cur_node->left_dis += 2+p_node->len_pid;
         }
         else {  // insert at the middle or tail of child_node list
           if (!temp2){
             temp1->r_bro = cur_node;
             cur_node->r_bro = NULL;
-            cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
-            if (show_p) cur_node->space_num += 2+p_node->len_pid;
+            cur_node->left_dis = p_node->left_dis + strlen(p_node->pname) + 2;
+            if (show_p) cur_node->left_dis += 2+p_node->len_pid;
           }
           while (temp2){
             assert(temp1->pid != pid && temp2->pid != pid);
             if (temp1->pid < pid && pid < temp2->pid){
               cur_node->r_bro = temp1->r_bro;
               temp1->r_bro = cur_node;
-              cur_node->space_num = temp2->space_num;
+              cur_node->left_dis = temp2->left_dis;
               break;
             }
             temp1 = temp1->r_bro;
@@ -153,8 +153,8 @@ int main(int argc, char *argv[]) {
             if (!temp2){
               temp1->r_bro = cur_node;
               cur_node->r_bro = NULL;
-              cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
-              if (show_p) cur_node->space_num += 2+p_node->len_pid;
+              cur_node->left_dis = p_node->left_dis + strlen(p_node->pname) + 2;
+              if (show_p) cur_node->left_dis += 2+p_node->len_pid;
             }
           }
         }
@@ -239,10 +239,10 @@ void helper(int show_p, PNode *root){
     return;
   }
   if (root->pid == 0) assert(0);
-  
-  for (int i = 0; i < root->space_num; i ++) printf(" ");
+  if (root->l_child) (root->l_child)->left_dis = 2;
+  for (int i = 0; i < root->left_dis; i ++) printf(" ");
   printf("%s", root->pname);
-  if (show_p) printf("(%d)  ", root->pid);
+  if (show_p) printf("(%d)", root->pid);
   PNode *child = root->l_child;
   if (!child) printf("\n");
   while (child != NULL){
