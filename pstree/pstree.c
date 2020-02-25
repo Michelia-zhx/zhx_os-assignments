@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
     fscanf(status, "%s", name_buff);
     free(name_buff);
     fscanf(status, "%s", name_buff);
-    // printf("pname: %s\n", name_buff);
+    printf("pname: %s\n", name_buff);
     
     char * temp_buff = (char *)malloc(50*sizeof(char));
     for (int i = 0; i < 5; i ++){
