@@ -222,7 +222,7 @@ void helper(int show_p, PNode *root){
   
   for (int i = 0; i < root->space_num; i ++) printf(" ");
   printf("%s", root->pname);
-  if (show_p) printf("(%d)", root->pid);
+  if (show_p) printf("(%d)  ", root->pid);
   PNode *child = root->l_child;
   if (!child) printf("\n");
   while (child != NULL){
