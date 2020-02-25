@@ -112,7 +112,8 @@ int main(int argc, char *argv[]) {
     }
     if (p_node->l_child == NULL) {
       p_node->l_child = cur_node;
-      cur_node->left_dis = 0;
+      cur_node->left_dis = p_node->left_dis + strlen(p_node->pname) + 2;
+      if (show_p) cur_node->left_dis += 2+p_node->len_pid;
     }
     else {
       if (!num_s){  // if not need to sort by pid
@@ -154,7 +155,7 @@ int main(int argc, char *argv[]) {
               temp1->r_bro = cur_node;
               cur_node->r_bro = NULL;
               cur_node->left_dis = p_node->left_dis + strlen(p_node->pname) + 2;
-              if (show_p) cur_node->left_dis += 2+p_node->len_pid;
+              if (show_p) cur_node->left_dis += 2 + p_node->len_pid;
             }
           }
         }
