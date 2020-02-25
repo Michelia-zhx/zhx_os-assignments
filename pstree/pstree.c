@@ -11,12 +11,14 @@ typedef struct Node{
   int pid; 
   int ppid;
   int space_num;
+  int len_pid;
   struct Node *l_child;
   struct Node *r_bro;
 }PNode;
 
 extern void show_version();
 extern pid_t *get_pids(int *num_pid, pid_t *max_pid);
+extern int get_len(int pid);
 extern void print_tree(int show_p, PNode *root);
 extern void helper(int show_p, PNode *root);
 
@@ -51,6 +53,7 @@ int main(int argc, char *argv[]) {
     pnode->pid = 0;
     pnode->ppid = 0;
     pnode->space_num = 0;
+    pnode->len_pid = 0;
     pnode->l_child = NULL;
     pnode->r_bro = NULL;
   }
@@ -101,6 +104,7 @@ int main(int argc, char *argv[]) {
     cur_node->pname = name_buff;
     cur_node->pid = pid;
     cur_node->ppid = ppid;
+    cur_node->len_pid = get_len(pid);
     PNode *p_node = &(ps_tree[ppid]);
     if (p_node->pid == 0) continue;
     if (p_node->l_child == NULL) {
@@ -113,6 +117,7 @@ int main(int argc, char *argv[]) {
         while(temp->r_bro != NULL)  temp = temp->r_bro;
         temp->r_bro = cur_node;
         cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
+        if (show_p) cur_node->space_num += 2+p_node->len_pid;
       }
       else {  // insert node by pid
         PNode *temp1 = p_node->l_child;
@@ -123,12 +128,14 @@ int main(int argc, char *argv[]) {
           p_node->l_child = cur_node;
           cur_node->space_num = 0;
           temp1->space_num = p_node->space_num + strlen(p_node->pname) + 2;
+          if (show_p) cur_node->space_num += 2+p_node->len_pid;
         }
         else {  // insert at the middle or tail of child_node list
           if (!temp2){
             temp1->r_bro = cur_node;
             cur_node->r_bro = NULL;
             cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
+            if (show_p) cur_node->space_num += 2+p_node->len_pid;
           }
           while (temp2){
             assert(temp1->pid != pid && temp2->pid != pid);
@@ -144,6 +151,7 @@ int main(int argc, char *argv[]) {
               temp1->r_bro = cur_node;
               cur_node->r_bro = NULL;
               cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
+              if (show_p) cur_node->space_num += 2+p_node->len_pid;
             }
           }
         }
@@ -205,6 +213,15 @@ pid_t *get_pids(int *num_pid, pid_t *max_pid){
   }
   // printf("max_pid: %d, num_pid: %d, i: %d\n",*max_pid, *num_pid, i);
   return sys_pids;
+}
+
+int get_len(int pid){
+  int len = 1;
+  while (pid/10 != 0){
+    len ++;
+    pid /= 10;
+  }
+  return len;
 }
 
 void print_tree(int show_p, PNode *root){
