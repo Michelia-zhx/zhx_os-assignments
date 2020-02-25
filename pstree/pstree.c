@@ -215,20 +215,20 @@ void print_tree(int show_p, PNode *root){
 
 void helper(int show_p, PNode *root){
   if (!root) {
-    // printf("\n");
+    printf("\n");
     return;
   }
   if (root->pid == 0) assert(0);
   
-  // for (int i = 0; i < root->space_num; i ++) printf(" ");
-  printf("%s", root->pname);
-  // if (show_p) printf("(%d)", root->pid);
+  for (int i = 0; i < root->space_num; i ++) printf(" ");
+  printf("%s  ", root->pname);
+  if (show_p) printf("(%d)", root->pid);
   PNode *child = root->l_child;
-  // if (!child) printf("\n");
+  if (!child) printf("\n");
   while (child != NULL){
     helper(show_p, child);
     child = child->r_bro;
   }
-  // printf("\n");
+  printf("\n");
   return;
 }
