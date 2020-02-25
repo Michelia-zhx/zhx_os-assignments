@@ -232,7 +232,7 @@ void print_tree(int show_p, PNode *root){
 
 void helper(int show_p, PNode *root){
   if (!root) {
-    printf("\n");
+    // printf("\n");
     return;
   }
   if (root->pid == 0) assert(0);
