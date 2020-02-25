@@ -106,10 +106,15 @@ int main(int argc, char *argv[]) {
     cur_node->ppid = ppid;
     cur_node->len_pid = get_len(pid);
     PNode *p_node = &(ps_tree[ppid]);
-    if (p_node->pid == 0) continue;
+    if (p_node->pid == 0) {
+      cur_node->space_num = 0;
+      continue;
+    }
     if (p_node->l_child == NULL) {
       p_node->l_child = cur_node;
       p_node->space_num = 0;
+      cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
+      if (show_p) cur_node->space_num += 2+p_node->len_pid;
     }
     else {
       if (!num_s){  // if not need to sort by pid
