@@ -68,30 +68,27 @@ int main(int argc, char *argv[]) {
     }
     // printf("1\n");
     // get p_name of the process
+    char * temp_buff = (char *)malloc(50*sizeof(char));
+    fscanf(status, "%s", temp_buff);
     char * name_buff = (char *)malloc(50*sizeof(char));
     fscanf(status, "%s", name_buff);
-    free(name_buff);
-    fscanf(status, "%s", name_buff);
     
-    char * temp_buff = (char *)malloc(50*sizeof(char));
     for (int i = 0; i < 5; i ++){
       fgets(temp_buff, 50, status);
     }
-    free(temp_buff);
-    
     //  get pid of the process
+    fscanf(status, "%s", temp_buff);
+
     char * pid_buff = (char *)malloc(50*sizeof(char));
-    fscanf(status, "%s", pid_buff);
-    free(pid_buff);
     fscanf(status, "%s", pid_buff);
     pid_t pid_status = atoi(pid_buff);
     assert(pid_status == pid);
     // printf("pid_buff: %s, pid_status: %d\n", pid_buff, pid_status);
     
+    fscanf(status, "%s", temp_buff);
+
     //  get parent pid of the process
     char * ppid_buff = (char *)malloc(50*sizeof(char));
-    fscanf(status, "%s", ppid_buff);
-    free(ppid_buff);
     fscanf(status, "%s", ppid_buff);
     pid_t ppid = atoi(ppid_buff);
     // printf("ppid_buff: %s, ppid_status: %d\n", ppid_buff, ppid);
