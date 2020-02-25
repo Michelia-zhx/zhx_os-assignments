@@ -18,6 +18,7 @@ typedef struct Node{
 extern void show_version();
 extern pid_t *get_pids(int *num_pid, pid_t *max_pid);
 extern void print_tree(int show_p, PNode *root);
+extern void helper(int show_p, PNode *root);
 
 int main(int argc, char *argv[]) {
   int show_p = 0;
@@ -31,6 +32,7 @@ int main(int argc, char *argv[]) {
     if (strcmp(argv[i], "-V") == 0 || strcmp(argv[i], "--version") == 0) show_v = 1;
     printf("argv[%d] = %s\n", i, argv[i]);
   }
+  if (num_s) show_p = 1;
   printf("p: %d, n: %d, V: %d\n", show_p, num_s, show_v);
 
   assert(!argv[argc]);
@@ -114,7 +116,6 @@ int main(int argc, char *argv[]) {
         while(temp->r_bro != NULL)  temp = temp->r_bro;
         temp->r_bro = cur_node;
         cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
-        if (p_node == &(ps_tree[1])) cur_node->space_num -= 2;
       }
       else {  // insert node by pid
         PNode *temp1 = p_node->l_child;
@@ -125,14 +126,12 @@ int main(int argc, char *argv[]) {
           p_node->l_child = cur_node;
           cur_node->space_num = 0;
           temp1->space_num = p_node->space_num + strlen(p_node->pname) + 2;
-          if (p_node == &(ps_tree[1])) temp1->space_num -= 2;
         }
         else {  // insert at the middle or tail of child_node list
           if (!temp2){
             temp1->r_bro = cur_node;
             cur_node->r_bro = NULL;
             cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
-            if (p_node == &(ps_tree[1])) cur_node->space_num -= 2;
           }
           while (temp2){
             assert(temp1->pid != pid && temp2->pid != pid);
@@ -148,7 +147,6 @@ int main(int argc, char *argv[]) {
               temp1->r_bro = cur_node;
               cur_node->r_bro = NULL;
               cur_node->space_num = p_node->space_num + strlen(p_node->pname) + 2;
-              if (p_node == &(ps_tree[1])) cur_node->space_num -= 2;
             }
           }
         }
@@ -212,5 +210,26 @@ pid_t *get_pids(int *num_pid, pid_t *max_pid){
 }
 
 void print_tree(int show_p, PNode *root){
+  if (!root) return;
+  if (root->pid == 0) assert(0);
+  helper(show_p, root);
+}
+
+void helper(int show_p, PNode *root){
+  if (!root) {
+    printf("\n");
+    return;
+  }
+  if (root->pid == 0) assert(0);
+  for (int i = 0; i < root->space_num; i ++) printf(" ");
+  printf("%s", root->pname);
+  if (show_p) printf("(%d)", root->pid);
+  PNode *child = root->l_child;
+  if (!child) printf("\n");
+  while (child != NULL){
+    helper(show_p, child);
+    child = child->r_bro;
+  }
+  printf("\n");
   return;
 }
