@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     // printf("argv[%d] = %s\n", i, argv[i]);
   }
   if (num_s) show_p = 1;
-  printf("p: %d, n: %d, V: %d\n", show_p, num_s, show_v);
+  // printf("p: %d, n: %d, V: %d\n", show_p, num_s, show_v);
 
   assert(!argv[argc]);
   if (show_v == 1){
