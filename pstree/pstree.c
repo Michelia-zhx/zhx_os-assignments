@@ -23,7 +23,6 @@ extern void print_tree(int show_p, PNode *root);
 extern void helper(int show_p, PNode *root);
 
 int main(int argc, char *argv[]) {
-  putchar(10);
   int show_p = 0;
   int num_s = 0;
   int show_v = 0;
@@ -33,7 +32,7 @@ int main(int argc, char *argv[]) {
     if (strcmp(argv[i], "-p") == 0 || strcmp(argv[i], "--show-pids") == 0) show_p = 1;
     if (strcmp(argv[i], "-n") == 0 || strcmp(argv[i], "--numeric-sort") == 0) num_s = 1;
     if (strcmp(argv[i], "-V") == 0 || strcmp(argv[i], "--version") == 0) show_v = 1;
-    printf("argv[%d] = %s\n", i, argv[i]);
+    // printf("argv[%d] = %s\n", i, argv[i]);
   }
   if (num_s) show_p = 1;
   printf("p: %d, n: %d, V: %d\n", show_p, num_s, show_v);
@@ -67,7 +66,7 @@ int main(int argc, char *argv[]) {
     // printf("%s\n", filename);
     FILE *status = fopen(filename, "r");
     if (status == NULL){
-      printf("error when opening %s\n", filename);
+      // printf("error when opening %s\n", filename);
       exit(-1);
     }
     // printf("1\n");
@@ -101,7 +100,7 @@ int main(int argc, char *argv[]) {
     
     // build the tree
     PNode *cur_node = &(ps_tree[pid]);
-    printf("pname: %s\n", name_buff);
+    // printf("pname: %s\n", name_buff);
     cur_node->pname = name_buff;
     cur_node->pid = pid;
     cur_node->ppid = ppid;
@@ -163,20 +162,20 @@ int main(int argc, char *argv[]) {
       }
     }
   }
-
+/*
   for (int i = 1; i <= max_pid; i ++){
     PNode *a = &(ps_tree[i]);
     if (a->pid != 0) printf("pname: %s, pid: %d, ppid: %d\n",a->pname, a->pid, a->ppid);
   }
-  
+*/
   print_tree(show_p, &(ps_tree[1]));
 
   return 0;
 }
 
 void show_version(){
-  printf("pstree 1.0\nCopyright (C) 2020 Hanxiao Zhang (a vegetable bird)\n");
-  printf("\nThis is a poor and free software\nAnd if anything goes wrong, don't ask me.\n");
+  fprintf(stderr, "pstree 1.0\nCopyright (C) 2020 Hanxiao Zhang (a vegetable bird)\n");
+  fprintf(stderr, "\nThis is a poor and free software\nAnd if anything goes wrong, don't ask me.\n");
   return;
 }
 
@@ -185,7 +184,7 @@ pid_t *get_pids(int *num_pid, pid_t *max_pid){
   struct dirent *ptr;
   dir = opendir("/proc");
   if (dir == NULL){
-    printf("error when opening /proc\n");
+    // printf("error when opening /proc\n");
     exit(-1);
   }
   int list_size = 300;  // initial size of pid list
