@@ -23,7 +23,7 @@ extern void print_tree(int show_p, PNode *root);
 extern void helper(int show_p, PNode *root);
 
 int main(int argc, char *argv[]) {
-  putchar("0");
+  putchar(10);
   int show_p = 0;
   int num_s = 0;
   int show_v = 0;
